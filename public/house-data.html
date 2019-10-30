@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title>House Data</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+		integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<link rel="stylesheet" href="assets/css/styles.css">
+</head>
+
+<body>
+	<div id="vm">
+
+		<my-header></my-header>
+		<my-nav> </my-nav>
+		<hr>
+
+		<main style="margin-bottom: 44px">
+			<div class="container">
+				<div class="col-8 text-justify">
+					<h2>Congressmen</h2>
+					<p>The major power of the House is to pass federal legislation that affects the entire country, although its
+						bills must also be passed by the Senate and further agreed to by the U.S. President before becoming law
+						(unless both the House and Senate re-pass the legislation with a two-thirds majority in each chamber).
+						The House has some exclusive powers: the power to initiate revenue bills, to impeach officials
+						(impeached officials are subsequently tried in the Senate), and to elect the U.S. President in case
+						there is no majority in the Electoral College.</p>
+					<p>Each U.S. state is represented in the House in proportion to its population as measured in the census,
+						but every state is entitled to at least one representative. </p>
+				</div>
+
+				<div class="container">
+					<div class="row">
+						<div class="col-5 text-center">
+							<h5>Select the parties what you want to see:</h5>
+							<label><input type="checkbox" id="democrat" value="D" v-model="selectedParties">Democrat</label>
+							<label><input type="checkbox" id="republican" value="R" v-model="selectedParties">Republican</label>
+							<label><input type="checkbox" id="independent" value="I" v-model="selectedParties">Independent</label>
+						</div>
+						<div class="col-3 text-center">
+							<h5> Select one state to filter: </h5>
+							<form id="states">
+								<select id="stateOption" v-model="selectedState">
+									<option value="allStates">All States</option>
+									<option v-for="state in states" v-bind:value="state">{{state}}</option>
+								</select>
+							</form>
+						</div>
+					</div>
+				</div>
+				<div>
+					<div v-if="isLoaded">
+						<table class="table container table-striped table-hover text-center" id="table-data">
+							<thead class="bg-dark text-light">
+								<tr>
+									<td>CONGRESSMAN</td>
+									<td>PARTY</td>
+									<td>STATE</td>
+									<td>SENIORITY</td>
+									<td>VOTES</td>
+								</tr>
+							</thead>
+							<tbody id="content">
+								<tr v-for="member in toFilteredMembers">
+									<td><a :href="member.url"> {{member.last_name}} {{member.first_name}} {{ member.middle_name}}</a></td>
+									<td>{{member.party}}</td>
+									<td>{{member.state}}</td>
+									<td>{{member.seniority}}</td>
+									<td>{{member.votes_with_party_pct}}%</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div v-else class="col-12 d-flex justify-content-center align-items-center ">
+						<div class="loading"></div>
+					</div>
+				</div>
+			</div>
+		</main>
+		<my-footer></my-footer>
+	</div>
+
+
+
+	<!--VUE JS-->
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<!--My_Components-->
+	<script src="assets/components/header.js"></script>
+	<script src="assets/components/nav.js"></script>
+	<script src="assets/components/footer.js"></script>
+	<!--JQUERY-->
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+		crossorigin="anonymous"></script>
+	<!--AJAX-->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+		integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+		crossorigin="anonymous"></script>
+	<!--BOOTSTRAP-->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+		integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+		crossorigin="anonymous"></script>
+	<!--URL DATA-->
+	<script>var url = "https://api.propublica.org/congress/v1/113/house/members.json";</script>
+	<!--Funcionalidad-->
+	<script src="assets/js/data-functionality.js"></script>
+	<!-- The core Firebase JS SDK is always required and must be listed first -->
+	<script src="/__/firebase/7.2.1/firebase-app.js"></script>
+	<!-- TODO: Add SDKs for Firebase products that you want to use
+			 https://firebase.google.com/docs/web/setup#available-libraries -->
+	<script src="/__/firebase/7.2.1/firebase-analytics.js"></script>
+	<!-- Initialize Firebase -->
+	<script src="/__/firebase/init.js"></script>
+</body>
+
+</html>

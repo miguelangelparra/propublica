@@ -1,0 +1,12 @@
+{
+  "hosting": {
+    "site": "propublica",
+    "public": "public",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
+}
+

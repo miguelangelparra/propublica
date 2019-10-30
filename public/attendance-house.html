@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title>Attendance - TGIF</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+		integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="assets/css/styles.css">
+</head>
+
+<body class=" text-grey">
+	<div id="vm">
+
+		<my-header></my-header>
+		<my-nav> </my-nav>
+
+		<main>
+			<div class="container">
+				<br>
+				<div class="row">
+
+					<!--PRINCIPAL TEXT-->
+					<div class="col-6 text-justify">
+						<h2>Attendance</h2>
+						<p>The Constitution specifies that a majority of members constitutes a quorum to do business in
+							each house.
+							Representatives and senators rarely force the presence of a quorum by demanding quorum
+							calls; thus, in most
+							cases,
+							debates continue even if a majority is not present.</p>
+
+						<p>The Senate uses roll-call votes; a clerk calls out the names of all the senators, each
+							senator stating
+							"aye" or
+							"no" when his or her name is announced. The House reserves roll-call votes for the most
+							formal matters, as a
+							roll-call of all 435 representatives takes quite some time; normally, members vote by
+							electronic device. In
+							the
+							case of a tie, the motion in question fails. In the Senate, the Vice President may (if
+							present) cast the
+							tiebreaking vote.</p>
+					</div>
+
+					<!--HOUSE AT A GLANCE-->
+					<transition name="fade">
+						<div class="col-6" v-if="isLoaded">
+							<h2 class="text-right">House at a glance</h2>
+							<table id="houseAtAGlance" class="table text-center table-striped table-bordered table-hover">
+								<thead class="thead-dark">
+									<tr>
+										<th>Party</th>
+										<th>No. of Reps</th>
+										<th>% Voted with Party</th>
+									</tr>
+								</thead>
+								<tbody v-bind='toStatisticsGlance'>
+									<tr v-for="partyGlance in statisticsGlance">
+										<td>{{partyGlance.descriptionParty}}</td>
+										<td>{{partyGlance.numbersOfMembers}}</td>
+										<td>{{partyGlance.pctVotesWithParty}}</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<div v-else class="col-6 d-flex justify-content-center align-items-center ">
+							<div class="loading "></div>
+						</div>
+				</div>
+				</transition>
+
+
+				<hr>
+				<div class="container" v-if="isLoaded">
+					<div class="row">
+						<!--LEAST ENGAGED-->
+						<div class="col-6">
+							<h2>Least Engaged <br> (Bottom 10% Attendance)</h2>
+							<table id="leastEngaged" class="table text-center table-striped table-bordered table-hover">
+								<thead class="thead-dark">
+									<tr>
+										<th>Name</th>
+										<th>Party</th>
+										<th>No. Missed Votes</th>
+										<th>% Missed</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr v-for='member in toGetLeastEngaged'>
+										<td><a :href="member.url"> {{member.last_name}} {{member.first_name}}
+												{{ member.middle_name}}</a></td>
+										<td>{{member.party}}</td>
+										<td>{{member.missed_votes}}</td>
+										<td>{{member.missed_votes_pct}}%</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+
+						<!--MOST ENGAGED-->
+						<div class="col-6">
+							<h2>Most Engaged <br> (Top 10% Attendance)</h2>
+							<table id="mostEngaged" class="table text-center table-striped table-bordered table-hover">
+								<thead class="thead-dark">
+									<tr>
+										<th>Name</th>
+										<th>Party</th>
+										<th>No. Missed Votes</th>
+										<th>% Missed</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr v-for="member in toGetMostEngaged">
+										<td><a :href="member.url"> {{member.last_name}} {{member.first_name}}
+												{{ member.middle_name}}</a></td>
+										<td>{{member.party}}</td>
+										<td>{{member.missed_votes}}</td>
+										<td>{{member.missed_votes_pct}}%</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+				<div v-else class="col-12 d-flex justify-content-center align-items-center ">
+					<div class="loading "></div>
+				</div>
+			</div>
+		</main>
+		<my-footer></my-footer>
+	</div>
+
+
+	<!--VUE JS-->
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<!--My_Components-->
+	<script src="assets/components/header.js"></script>
+	<script src="assets/components/nav.js"></script>
+	<script src="assets/components/footer.js"></script>
+	<!--JQUERY-->
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+		crossorigin="anonymous"></script>
+	<!--AJAX-->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+		integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+		crossorigin="anonymous"></script>
+	<!--BOOTSTRAP-->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+		integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+		crossorigin="anonymous"></script>
+	<!--URL DATA-->
+	<script> var url = "https://api.propublica.org/congress/v1/113/house/members.json?callback=request";</script>
+	<!--Funcionalidad-->
+	<script src="assets/js/attendance_and_loyalty-functionality.js"> </script>
+
+	<!-- The core Firebase JS SDK is always required and must be listed first -->
+	<script src="/__/firebase/7.2.1/firebase-app.js"></script>
+	<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+	<script src="/__/firebase/7.2.1/firebase-analytics.js"></script>
+	<!-- Initialize Firebase -->
+	<script src="/__/firebase/init.js"></script>
+</body>
+
+</html>
